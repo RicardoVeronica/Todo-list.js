@@ -53,8 +53,17 @@ function createHTML() {
 
   if (tweets.length > 0) {
     tweets.forEach((element) => {
+      const deleteBTN = document.createElement("a");
+      deleteBTN.classList.add("borrar-tweet");
+      deleteBTN.textContent = "X";
+      deleteBTN.onclick = () => {
+        deleteTweet(element.id);
+      };
+
       const li = document.createElement("li");
       li.textContent = element.userTweet;
+      li.appendChild(deleteBTN);
+
       $tweetsList.appendChild(li);
     });
   }
@@ -65,6 +74,11 @@ function createHTML() {
 // adds actual tweets to localStorage
 function syncStorage() {
   localStorage.setItem("tweets", JSON.stringify(tweets));
+}
+
+function deleteTweet(id) {
+  tweets = tweets.filter((tweet) => tweet.id !== id);
+  createHTML();
 }
 
 function cleanHTML() {
