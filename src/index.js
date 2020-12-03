@@ -5,6 +5,10 @@ let tweets = [];
 
 // Event listeners
 document.addEventListener("submit", addTweet);
+document.addEventListener("DOMContentLoaded", () => {
+  tweets = JSON.parse(localStorage.getItem("tweets")) || [];
+  createHTML();
+});
 
 // Functions
 function addTweet(e) {
@@ -54,6 +58,13 @@ function createHTML() {
       $tweetsList.appendChild(li);
     });
   }
+
+  syncStorage();
+}
+
+// adds actual tweets to localStorage
+function syncStorage() {
+  localStorage.setItem("tweets", JSON.stringify(tweets));
 }
 
 function cleanHTML() {
