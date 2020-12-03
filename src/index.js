@@ -13,8 +13,21 @@ function addTweet(e) {
   // textarea where user writes
   const $userTweet = document.getElementById("tweet").value;
 
-  if ($userTweet === "") showError("Un tweet no puede ir vacio");
-  return;
+  if ($userTweet === "") {
+    showError("Un tweet no puede ir vacio");
+    return;
+  }
+
+  const tweetObj = {
+    id: Date.now(),
+    userTweet: $userTweet,
+  };
+
+  tweets = [...tweets, tweetObj];
+
+  createHTML();
+
+  $form.reset();
 }
 
 function showError(msg) {
@@ -24,4 +37,27 @@ function showError(msg) {
 
   const content = document.getElementById("contenido");
   content.appendChild(paragraph);
+
+  // delete paragraph after 2 seconds
+  setTimeout(() => {
+    paragraph.remove();
+  }, 2000);
+}
+
+function createHTML() {
+  cleanHTML();
+
+  if (tweets.length > 0) {
+    tweets.forEach((element) => {
+      const li = document.createElement("li");
+      li.textContent = element.userTweet;
+      $tweetsList.appendChild(li);
+    });
+  }
+}
+
+function cleanHTML() {
+  while ($tweetsList.firstChild) {
+    $tweetsList.removeChild($tweetsList.firstChild);
+  }
 }
